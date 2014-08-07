@@ -5,6 +5,7 @@ require 'pry'
 
 DB = PG.connect(:dbname => "to_do")
 
+
 @user_decision = nil
 
 def main_menu
@@ -18,6 +19,8 @@ def main_menu
     create_list
   when '2'
     list_lists
+  when '3'
+    edit_task
   when 'x'
     puts "Goodbye Alfred."
     exit
@@ -146,7 +149,33 @@ def view_menu
 
   puts "\nHere are your incomplete tasks:"
   puts Task.incomplete_list.select { |task| puts "#{task.id}. #{task.name}"}
-  main_menu
+
+  puts "\n\nWould you like to edit a task? Y or N."
+
+  user_decision = gets.chomp
+
+  if user_decision == 'y'
+    edit_task
+  elsif user_decision == 'n'
+    puts "Goodbye Alfred."
+    main_menu
+  end
+
+end
+
+def edit_task
+  puts "+ Enter the index of the task that you would like to edit."
+  puts Task.all.select { |task| puts "#{task.id}. #{task.name}" }
+
+  user_decision_id = gets.chomp.to_i
+  current_task = Task.select(user_decision_id)
+
+  puts "Enter the new description of your task:"
+
+  user_decision = gets.chomp
+  revised = Task.edit(user_decision, user_decision_id)
+  puts "#{current_task.name} is now #{user_decision}."
+
 end
 
 def remove_list

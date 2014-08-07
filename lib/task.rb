@@ -36,11 +36,12 @@ class Task
     results = DB.exec("SELECT * FROM tasks;")
     tasks = []
     results.each do |result|
+      id = result["id"]
       name = result["name"]
       list_id = result["list_id"].to_i
       completed = result["completed"]
       due_date = result["due_date"]
-      tasks << Task.new(name, list_id, completed, due_date)
+      tasks << Task.new(id, name, list_id, completed, due_date)
     end
     tasks
   end
@@ -120,7 +121,23 @@ class Task
     tasks
   end
 
+  def Task.select(id)
+    result = DB.exec("SELECT * FROM tasks WHERE id = #{id};")
+    tasks = nil
+    result.each do |result|
+      id = result["id"]
+      name = result["name"]
+      list_id = result["list_id"].to_i
+      completed = result["completed"]
+      due_date = result["due_date"]
+      tasks = Task.new(id, name, list_id, completed, due_date)
+    end
+    tasks
+  end
 
+  def Task.edit(new_description, id)
+    DB.exec("UPDATE tasks SET name = '#{new_description}' WHERE id = #{id};")
+  end
 
   def self.complete(id)
     DB.exec("UPDATE tasks SET completed = 'y' WHERE id = #{id};")
