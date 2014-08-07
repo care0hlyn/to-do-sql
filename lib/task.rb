@@ -91,7 +91,7 @@ class Task
     DB.exec("UPDATE tasks SET due_date = '#{date}' WHERE id = #{id};")
   end
 
-  def Task.sort_by_due_date(id)
+  def Task.sort_by_due_date_asc(id)
     result = DB.exec("SELECT * FROM tasks WHERE list_id = #{id} ORDER BY due_date ASC;")
     tasks = []
     result.each do |result|
@@ -104,6 +104,23 @@ class Task
     end
     tasks
   end
+
+
+  def Task.sort_by_due_date_desc(id)
+    result = DB.exec("SELECT * FROM tasks WHERE list_id = #{id} ORDER BY due_date DESC;")
+    tasks = []
+    result.each do |result|
+      id = result["id"]
+      name = result["name"]
+      list_id = result["list_id"].to_i
+      completed = result["completed"]
+      due_date = result["due_date"]
+      tasks << Task.new(id, name, list_id, completed, due_date)
+    end
+    tasks
+  end
+
+
 
   def self.complete(id)
     DB.exec("UPDATE tasks SET completed = 'y' WHERE id = #{id};")

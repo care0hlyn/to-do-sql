@@ -113,8 +113,17 @@ end
 
 def list_tasks
 
-  puts "Here are all your tasks sorted by due date:"
-  Task.sort_by_due_date(@user_decision).select { |task| puts "#{task.id}. #{task.name}.  Complete? #{task.completed}  Due Date: #{task.due_date}" }
+  puts "Enter '1' to lists tasks in ascending order."
+  puts "Enter '2' to lists tasks in descending order."
+
+  user_decision = gets.chomp
+
+  if user_decision == '1'
+    Task.sort_by_due_date_asc(@user_decision).select { |task| puts "#{task.id}. #{task.name}.  Complete? #{task.completed}  Due Date: #{task.due_date}" }
+  elsif user_decision == '2'
+    Task.sort_by_due_date_desc(@user_decision).select { |task| puts "#{task.id}. #{task.name}.  Complete? #{task.completed}  Due Date: #{task.due_date}" }
+  end
+
   # puts "Here are all your tasks:"
   # Task.view(@user_decision).select { |task| puts "#{task.id}. #{task.name}.  Complete? #{task.completed}  Due Date: #{task.due_date}" }
 
