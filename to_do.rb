@@ -113,8 +113,10 @@ end
 
 def list_tasks
 
-  puts "Here are all your tasks:"
-  Task.view(@user_decision).select { |task| puts "#{task.id}. #{task.name}.  Complete? #{task.completed}  Due Date: #{task.due_date}" }
+  puts "Here are all your tasks sorted by due date:"
+  Task.sort_by_due_date(@user_decision).select { |task| puts "#{task.id}. #{task.name}.  Complete? #{task.completed}  Due Date: #{task.due_date}" }
+  # puts "Here are all your tasks:"
+  # Task.view(@user_decision).select { |task| puts "#{task.id}. #{task.name}.  Complete? #{task.completed}  Due Date: #{task.due_date}" }
 
   puts "Would you like to mark a task as complete? Y/N"
   response = gets.chomp
