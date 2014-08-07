@@ -43,7 +43,7 @@ describe List do
   it 'removes all tasks associated with the list when deleted' do
     list = List.new('Epicodus stuff')
     list.save
-    task1 = Task.new('learn SQL', list.id)
+    task1 = Task.new('learn SQL', list.id, 'n', '2014-08-08')
     task1.save
     List.remove_list(list.id)
     List.all.should eq []

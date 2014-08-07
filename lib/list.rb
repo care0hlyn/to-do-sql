@@ -32,11 +32,17 @@ class List
     @id = results.first['id'].to_i
   end
 
+  def self.find_list(id)
+    result = DB.exec("SELECT * FROM lists WHERE id = #{id};")
+    @id = result.first['id']
+    @id
+  end
+
   def self.remove_list(id)
     DB.exec("DELETE FROM lists WHERE id = #{id};")
     DB.exec("DELETE FROM tasks WHERE list_id = #{id};")
-
-
   end
+
+
 
 end
